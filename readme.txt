@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.61 =
+
+Replaced the plugin details banner with the current Vilpy login background.
+
 = 0.0.60 =
 
 Forced Bricolage Grotesque inline on the dashboard welcome heading and text.
