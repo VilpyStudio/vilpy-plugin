@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.66 =
+
+Switched plugin updates from the GitHub API to a static update.json feed to avoid 403 errors.
+
 = 0.0.65 =
 
 Reduced the dashboard welcome logo width from 240px to 140px.

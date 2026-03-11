@@ -13,7 +13,7 @@
  * Plugin Name:       Vilpy
  * Plugin URI:        https://github.com/VilpyStudio/vilpy-plugin
  * Description:       Vilpy plugin voor beheer van WordPress websites.
- * Version:           0.0.65
+ * Version:           0.0.66
  * Author:            Vilpy
  * Author URI:        https://example.com
  * License:           Proprietary
@@ -43,12 +43,10 @@ function BHinvokeUpdater()
     //UPDATER
     require 'includes/vendor/plugin-update-checker/plugin-update-checker.php';
     $myUpdateChecker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-        'https://github.com/VilpyStudio/vilpy-plugin',
+        'https://raw.githubusercontent.com/VilpyStudio/vilpy-plugin/main/update.json',
         __FILE__,
         'vilpy'
     );
-
-    $myUpdateChecker->setBranch('main');
 }
 BHinvokeUpdater();
 
