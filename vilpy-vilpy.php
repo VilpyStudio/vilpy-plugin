@@ -13,7 +13,7 @@
  * Plugin Name:       Vilpy
  * Plugin URI:        https://github.com/VilpyStudio/vilpy-plugin
  * Description:       Vilpy plugin voor beheer van WordPress websites.
- * Version:           0.0.55
+ * Version:           0.0.57
  * Author:            Vilpy
  * Author URI:        https://example.com
  * License:           Proprietary
@@ -49,10 +49,6 @@ function BHinvokeUpdater()
     );
 
     $myUpdateChecker->setBranch('main');
-    $updaterToken = defined('HH_UPDATER_TOKEN') ? HH_UPDATER_TOKEN : '';
-    if (!empty($updaterToken)) {
-        $myUpdateChecker->setAuthentication($updaterToken);
-    }
 }
 BHinvokeUpdater();
 

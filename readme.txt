@@ -14,6 +14,14 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.57 =
+
+Switched the GitHub repository to public and removed the updater token requirement.
+
+= 0.0.56 =
+
+Added a GitHub updater token setting for private repository updates.
+
 = 0.0.55 =
 
 Updated dashboard welcome branding, set Bricolage Grotesque, and fixed login logo sizing.

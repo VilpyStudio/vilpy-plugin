@@ -202,6 +202,7 @@ class OptionsPage
         <?php
         echo ob_get_clean();
     }
+
     //Callback for overlay field
     public function vilpyOverlayField()
     {
