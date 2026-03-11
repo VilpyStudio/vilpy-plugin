@@ -1,0 +1,45 @@
+    #adminmenuwrap-client {
+        transform: scale(.1);
+    }
+
+    .menu-items form {
+        display: grid;
+        grid-template-columns: repeat(5, 18%);
+        grid-template-rows: repeat(5, auto);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        margin-left: -10px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        .menu-items form {
+            grid-template-columns: repeat(3, 33.33333%);
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .menu-items form {
+            grid-template-columns: repeat(2, 50%);
+        }
+    }
+
+    .menu-items-card {
+        margin: 10px;
+        padding: 15px;
+        border: 1px solid #c3c4c7;
+        box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+        background: #fff;
+
+        .selectedChild {
+            pointer-events: none;
+            opacity: .5;
+        }
+    }
+
+    .menu-items-card .submenu-label {
+        line-height: 30px;
+    }
+
+    .menu-items-card .fake-submenu-label {
+        line-height: 30px;
+    }

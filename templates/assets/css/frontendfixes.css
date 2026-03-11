@@ -1,0 +1,102 @@
+/* top menu arrows */
+.elementor-nav-menu--dropdown.elementor-nav-menu__container
+  .menu-item-has-children
+  a {
+  padding-right: 30px !important;
+}
+.elementor-nav-menu__container .menu-item-has-children {
+  padding-right: 10px !important;
+}
+.elementor-nav-menu--dropdown .menu-item-has-children a {
+  display: inline-block;
+  padding-right: 20px;
+}
+.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:after {
+  border-bottom: 2px solid;
+}
+.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:before {
+  border-right: 2px solid;
+}
+.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:before,
+.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:after {
+  opacity: 1 !important;
+  content: "";
+  width: 8px !important;
+  background: none !important;
+  height: 8px !important;
+  display: block !important;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 7px);
+  transform: rotate(45deg);
+}
+.elementor-nav-menu--dropdown .menu-item-has-children a {
+  display: inline-block;
+}
+.elementor-nav-menu--dropdown
+  .menu-item-has-children
+  a.elementor-item.highlighted
+  span:before,
+.elementor-nav-menu--dropdown
+  .menu-item-has-children
+  a.elementor-item.highlighted
+  span:after {
+  transform: rotate(225deg);
+}
+.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:before,
+.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:after {
+  top: calc(50% - 6px);
+  right: 2px;
+  left: initial;
+  transform: rotate(45deg);
+  transition: transform 200ms linear;
+  left: initial !important;
+}
+.elementor-nav-menu__container .menu-item-has-children .sub-arrow i,
+.elementor-nav-menu__container .menu-item-has-children .sub-arrow svg {
+  display: none !important;
+}
+
+.elementor-nav-menu--main.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:before,
+.elementor-nav-menu--main.elementor-nav-menu__container
+  .menu-item-has-children
+  a.elementor-item
+  span:after {
+  right: -6px;
+}
+.elementor-nav-menu--main.elementor-nav-menu__container
+  .menu-item-has-children {
+  padding-right: 10px !important;
+}
+.elementor-nav-menu--main.elementor-nav-menu__container
+  .menu-item-has-children
+  a {
+  position: initial !important;
+}
+.elementor-nav-menu--main.elementor-nav-menu__container
+  .menu-item-has-children
+  a
+  span {
+  position: relative !important;
+}

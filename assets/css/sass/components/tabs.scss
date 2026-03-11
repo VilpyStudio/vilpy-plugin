@@ -1,0 +1,30 @@
+//Fix shoptimizer using same classname
+.toplevel_page_commercekit .tab-content {
+  display: block;
+}
+
+.next-to-eachother.active-tab {
+  display: flex !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .next-to-eachother.active-tab {
+    display: block !important;
+  }
+}
+
+.hh-tab-content {
+  display: none;
+
+  &.active-tab {
+    display: block;
+  }
+}
+
+.active-button {
+  background-color: white;
+}
+
+.nav-tab {
+  cursor: pointer;
+}

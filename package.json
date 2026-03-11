@@ -1,0 +1,24 @@
+{
+  "name": "vilpy",
+  "version": "0.0.1",
+  "description": "Deze plugin is voor alle websites van VILPY.",
+  "main": " ",
+  "scripts": {
+    "test": " "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VilpyStudio/vilpy-plugin.git"
+  },
+  "author": "Vilpy",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/VilpyStudio/vilpy-plugin/issues"
+  },
+  "homepage": "https://github.com/VilpyStudio/vilpy-plugin#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^5.0.0",
+    "sass": "^1.43.2"
+  }
+}

@@ -1,0 +1,118 @@
+#vilpy-welcome + div.wrap > h1 {
+    display: none !important;
+}
+#vilpy-welcome section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+#vilpy-welcome section div {
+    margin-top: -10px;
+    padding-right: 25px;
+}
+
+.form-table th span {
+    display: block;
+    font-weight: normal;
+    font-size: .8em;
+}
+
+#vilpy-welcome {
+    z-index: 10;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+#vilpy-welcome .vilpy-theme-img-welcome {
+    max-width: 240px;
+    width: 100%;
+    display: block;
+}
+
+@media only screen and (max-width: 1024px) {
+    #vilpy-welcome .vilpy-theme-img-welcome {
+        display: none;
+    }
+
+    #vilpy-welcome {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+#vilpy-welcome h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: white;
+    font-size: 2.4em;
+}
+
+#vilpy-welcome p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: white;
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+#screen-meta-links {
+    z-index: 12;
+    position: relative;
+}
+
+.systemPage-item {
+    display: block;
+    position: relative;
+    font-size: .8em;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #c3c4c7;
+
+    strong {
+        display:inline-block;
+        width:100%;
+    }
+
+    .item {
+        display:block;
+        width:100%;
+        overflow: auto;
+
+        &:after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    }
+
+    .item_label {
+        display:inline-block;
+        font-weight:bold;
+        width:10%;
+    }
+
+    .item_description {
+        display:inline-block;
+        width:90%;
+        float:right;
+    }
+}
+
+//Fixes
+
+.cky-notice-review {
+    display: none !important;
+}

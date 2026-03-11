@@ -1,0 +1,32 @@
+/* top menu arrows */
+.uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a{
+	padding-right: 30px!important;
+}
+.uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a.uael-menu-item:after{
+	border-bottom: 2px solid;
+}
+.uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a.uael-menu-item:before{
+	border-right: 2px solid;
+}
+.uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a.uael-menu-item:before, .uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a.uael-menu-item:after {
+	opacity: 1!important;
+	content: "";
+	width: 8px!important;
+	background: none !important;
+	height: 8px!important;
+	display: block!important;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 7px);
+	transform: rotate(45deg);
+}
+.uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a.uael-menu-item:before, .uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) a.uael-menu-item:after {
+	top: calc(50% - 6px);
+	right: 11px;
+	left: initial;
+	transform: rotate(45deg)!important;
+	transition: transform 200ms linear;
+}
+.uael-nav-menu__layout-horizontal li[data-dropdown-width]:not([data-dropdown-width=default]) .sub-arrow {
+	display: none!important;
+}
