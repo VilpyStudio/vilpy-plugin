@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.68 =
+
+Updated the static update feed so WordPress can detect the latest Vilpy release correctly.
+
 = 0.0.67 =
 
 Forced the dashboard welcome logo to a fixed width of 140px for uploaded SVG logos.

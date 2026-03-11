@@ -1,19 +1,19 @@
 {
   "name": "Vilpy",
   "slug": "vilpy",
-  "version": "0.0.66",
+  "version": "0.0.68",
   "author": "Vilpy",
   "author_homepage": "https://github.com/VilpyStudio/vilpy-plugin",
   "homepage": "https://github.com/VilpyStudio/vilpy-plugin",
   "requires": "4.7",
   "tested": "6.9.3",
   "requires_php": "7.0",
-  "last_updated": "2026-03-11 14:30:00",
+  "last_updated": "2026-03-11 14:45:00",
   "download_url": "https://github.com/VilpyStudio/vilpy-plugin/releases/latest/download/vilpy-start.zip",
   "sections": {
     "description": "Vilpy plugin voor beheer van WordPress websites.",
     "installation": "Upload de plugin, activeer hem en configureer de gewenste Vilpy-instellingen.",
-    "changelog": "<h4>0.0.66</h4><p>Switched plugin updates from the GitHub API to a static update.json feed to avoid 403 errors.</p>"
+    "changelog": "<h4>0.0.68</h4><p>Updated the static update feed so WordPress can detect the latest Vilpy release correctly.</p><h4>0.0.67</h4><p>Forced a fixed 140px width for the dashboard welcome logo, including uploaded SVG logos.</p><h4>0.0.66</h4><p>Switched plugin updates from the GitHub API to a static update.json feed to avoid 403 errors.</p>"
   },
   "banners": {
     "low": "https://raw.githubusercontent.com/VilpyStudio/vilpy-plugin/main/assets/banner-772x250.jpg",
