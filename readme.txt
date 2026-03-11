@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.69 =
+
+Replaced both plugin banner assets with the new "update plugin .png" artwork.
+
 = 0.0.68 =
 
 Updated the static update feed so WordPress can detect the latest Vilpy release correctly.
