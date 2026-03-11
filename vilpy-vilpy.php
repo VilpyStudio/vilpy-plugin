@@ -13,7 +13,7 @@
  * Plugin Name:       Vilpy
  * Plugin URI:        https://github.com/VilpyStudio/vilpy-plugin
  * Description:       Vilpy plugin voor beheer van WordPress websites.
- * Version:           0.0.61
+ * Version:           0.0.62
  * Author:            Vilpy
  * Author URI:        https://example.com
  * License:           Proprietary
