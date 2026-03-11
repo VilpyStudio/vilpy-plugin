@@ -14,6 +14,14 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.59 =
+
+Translated the Vilpy settings labels and section copy to Dutch.
+
+= 0.0.58 =
+
+Updated Vilpy admin typography to Bricolage Grotesque on settings and dashboard screens.
+
 = 0.0.57 =
 
 Switched the GitHub repository to public and removed the updater token requirement.

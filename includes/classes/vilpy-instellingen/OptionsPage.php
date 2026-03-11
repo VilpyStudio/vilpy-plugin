@@ -30,18 +30,18 @@ class OptionsPage
         register_setting('vilpy-settings', 'clear-litespeed-on-save');
 
         //Add section
-        add_settings_section('vilpy-options', __('Customize for client', themeTextDomain()), [$this, 'vilpyOptionsSection'], 'vilpy');
+        add_settings_section('vilpy-options', __('Aanpassen voor klant', themeTextDomain()), [$this, 'vilpyOptionsSection'], 'vilpy');
 
         //Add fields in section
-        add_settings_field('client-logo', __('Client logo', themeTextDomain()), [$this, 'vilpyLogoField'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-logo-size', __('Client logo size', themeTextDomain()), [$this, 'vilpyLogoSizeField'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-bg', __('Client background', themeTextDomain()), [$this, 'vilpyBgField'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-accent', __('Client accent color', themeTextDomain()), [$this, 'vilpyAccentField'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-overlay', __('Client overlay color', themeTextDomain()), [$this, 'vilpyoverlayField'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-welcome-text', __('Client welcome text', themeTextDomain()), [$this, 'vilpyWelcomeText'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-logo', __('Klantlogo', themeTextDomain()), [$this, 'vilpyLogoField'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-logo-size', __('Grootte klantlogo', themeTextDomain()), [$this, 'vilpyLogoSizeField'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-bg', __('Klantachtergrond', themeTextDomain()), [$this, 'vilpyBgField'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-accent', __('Accentkleur', themeTextDomain()), [$this, 'vilpyAccentField'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-overlay', __('Overlaykleur', themeTextDomain()), [$this, 'vilpyoverlayField'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-welcome-text', __('Welkomsttekst', themeTextDomain()), [$this, 'vilpyWelcomeText'], 'vilpy', 'vilpy-options');
         add_settings_field('admin-url-override', __('Aangepaste login URL', themeTextDomain()), [$this, 'vilpyAdminUrlOverride'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-title-color', __('Client title color', themeTextDomain()), [$this, 'vilpyTitleColor'], 'vilpy', 'vilpy-options');
-        add_settings_field('client-cloudflare-zone', __('Cloudflare zone id', themeTextDomain()), [$this, 'vilpyCloudflareZoneId'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-title-color', __('Titelkleur', themeTextDomain()), [$this, 'vilpyTitleColor'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-cloudflare-zone', __('Cloudflare zone ID', themeTextDomain()), [$this, 'vilpyCloudflareZoneId'], 'vilpy', 'vilpy-options');
         add_settings_field('client-cache-control', __('Cache instelling in menu voor administrator', themeTextDomain()), [$this, 'vilpyCacheControl'], 'vilpy', 'vilpy-options');
         add_settings_field('clear-cloudflare-on-save', __('Cloudflare cache legen op update', themeTextDomain()), [$this, 'vilpyClearCloudflareCacheOnSave'], 'vilpy', 'vilpy-options');
         add_settings_field('clear-litespeed-on-save', __('Litespeed cache legen op update', themeTextDomain()), [$this, 'vilpyClearLitespeedCacheOnSave'], 'vilpy', 'vilpy-options');
@@ -58,13 +58,19 @@ class OptionsPage
         }
 
         echo '<div style="max-width: 800px">';
-        wp_editor($text, 'client-welcome-text', ['textarea_name' => 'client-welcome-text', 'media_buttons' => false]);
+        wp_editor($text, 'client-welcome-text', [
+            'textarea_name' => 'client-welcome-text',
+            'media_buttons' => false,
+            'tinymce' => [
+                'content_style' => 'body { font-family: "Bricolage Grotesque", sans-serif; font-size: 16px; }',
+            ],
+        ]);
         echo '</div>';
     }
 
     public function vilpyOptionsSection()
     {
-        _e('Edit the login page for the client by setting a custom logo and background image', themeTextDomain());
+        _e('Pas de loginpagina aan met een eigen logo, achtergrond en teksten voor de klant.', themeTextDomain());
     }
 
     //Callback for Logo field
@@ -222,6 +228,29 @@ class OptionsPage
             wp_enqueue_script('vilpy-script', $path . '/vilpy.js', array( 'wp-color-picker', 'jquery' ), false, true);
             wp_enqueue_media();
             wp_enqueue_style('wp-color-picker');
+            wp_enqueue_style('vilpy-bricolage-font', 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&display=swap', [], null);
+            wp_add_inline_style('vilpy-bricolage-font', '
+                .settings_page_vilpy,
+                .settings_page_vilpy .wrap,
+                .settings_page_vilpy .wrap h1,
+                .settings_page_vilpy .wrap h2,
+                .settings_page_vilpy .wrap h3,
+                .settings_page_vilpy .wrap p,
+                .settings_page_vilpy .form-table th,
+                .settings_page_vilpy .form-table td,
+                .settings_page_vilpy .form-table label,
+                .settings_page_vilpy input,
+                .settings_page_vilpy textarea,
+                .settings_page_vilpy select,
+                .settings_page_vilpy button,
+                .settings_page_vilpy .wp-editor-container,
+                .settings_page_vilpy .wp-switch-editor,
+                .settings_page_vilpy .mce-toolbar *,
+                .settings_page_vilpy .mce-menubar *,
+                .settings_page_vilpy .mce-statusbar * {
+                    font-family: "Bricolage Grotesque", sans-serif !important;
+                }
+            ');
             wp_localize_script('vilpy-script', 'admin_url', array('ajax_url' => admin_url('admin-ajax.php')));
         }
     }
