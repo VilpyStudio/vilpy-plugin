@@ -32,15 +32,17 @@ $titleColor = get_option('client-title-color');
     #vilpy-welcome ul,
     #vilpy-welcome li {
         color: <?php echo $titleColor ? $titleColor : 'white' ?>;
-        font-family: 'Bricolage Grotesque', sans-serif;
+        font-family: 'Bricolage Grotesque', sans-serif !important;
     }
 
     #vilpy-welcome h1 {
-        font-weight: 800;
+        font-family: 'Bricolage Grotesque', sans-serif !important;
+        font-weight: 800 !important;
     }
 
     #vilpy-welcome p {
-        font-weight: 400;
+        font-family: 'Bricolage Grotesque', sans-serif !important;
+        font-weight: 400 !important;
     }
 
     #vilpy-welcome ul {
@@ -63,7 +65,7 @@ $titleColor = get_option('client-title-color');
 <section id="vilpy-welcome">
     <section>
         <div>
-            <h1 style="color:<?php echo $titleColor ? $titleColor : 'white'?>">Welkom! <?php echo VilpyRole::name(); ?></h1>
+            <h1 style="color:<?php echo $titleColor ? $titleColor : 'white'?>; font-family:'Bricolage Grotesque', sans-serif !important; font-weight:800 !important;">Welkom! <?php echo VilpyRole::name(); ?></h1>
             <?php
             $text = get_option('client-welcome-text');
 
@@ -73,7 +75,7 @@ $titleColor = get_option('client-title-color');
                 $text = \hh_default_welcome_text(false);
             }
 
-            echo '<p style="max-width: 55%">';
+            echo '<p style="max-width: 55%; font-family:\'Bricolage Grotesque\', sans-serif !important; font-weight:400 !important;">';
             echo $text;
             echo '</p>';
             ?>

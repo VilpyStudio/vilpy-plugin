@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.60 =
+
+Forced Bricolage Grotesque inline on the dashboard welcome heading and text.
+
 = 0.0.59 =
 
 Translated the Vilpy settings labels and section copy to Dutch.
