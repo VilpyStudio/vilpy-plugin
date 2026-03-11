@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.64 =
+
+Sanitized the welcome text editor to remove TinyMCE bookmark markup from saved content.
+
 = 0.0.63 =
 
 Replaced both plugin banner assets with the new "plugin update screenshot" artwork.

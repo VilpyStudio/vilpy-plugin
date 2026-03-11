@@ -22,7 +22,7 @@ class OptionsPage
         register_setting('vilpy-settings', 'client-accent', ['default' => '#061b17']);
         register_setting('vilpy-settings', 'client-overlay', ['default' => '#061b17']);
         register_setting('vilpy-settings', 'client-title-color');
-        register_setting('vilpy-settings', 'client-welcome-text');
+        register_setting('vilpy-settings', 'client-welcome-text', [$this, 'sanitizeWelcomeText']);
         register_setting('vilpy-settings', 'admin-url-override');
         register_setting('vilpy-settings', 'client-cloudflare-zone');
         register_setting('vilpy-settings', 'client-cache-control');
@@ -49,7 +49,7 @@ class OptionsPage
 
     public function vilpyWelcomeText()
     {
-        $text = get_option('client-welcome-text');
+        $text = $this->sanitizeWelcomeText(get_option('client-welcome-text'));
 
         if (!$text && pluginInstalled("woocommerce/woocommerce.php")) {
             $text = \hh_default_welcome_text(true);
@@ -66,6 +66,19 @@ class OptionsPage
             ],
         ]);
         echo '</div>';
+    }
+
+    public function sanitizeWelcomeText($text)
+    {
+        if (!is_string($text)) {
+            return '';
+        }
+
+        // TinyMCE can leave bookmark spans in the saved HTML when switching tabs.
+        $text = preg_replace('/<span[^>]*data-mce-type="bookmark"[^>]*>.*?<\/span>/is', '', $text);
+        $text = preg_replace('/<span[^>]*class="mce_SELRES_start"[^>]*><\/span>/is', '', $text);
+
+        return wp_kses_post($text);
     }
 
     public function vilpyOptionsSection()
