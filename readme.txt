@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.63 =
+
+Replaced both plugin banner assets with the new "plugin update screenshot" artwork.
+
 = 0.0.62 =
 
 Added a retina plugin banner so WordPress no longer falls back to stale banner artwork.
