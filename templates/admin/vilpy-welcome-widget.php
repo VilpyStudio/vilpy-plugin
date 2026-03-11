@@ -45,6 +45,16 @@ $titleColor = get_option('client-title-color');
         font-weight: 400 !important;
     }
 
+    #vilpy-welcome .vilpy-theme-img-welcome {
+        width: 140px !important;
+        min-width: 140px !important;
+        max-width: 140px !important;
+        height: auto !important;
+        flex: 0 0 140px;
+        object-fit: contain;
+        align-self: flex-start;
+    }
+
     #vilpy-welcome ul {
         list-style-type: disck;
         margin-left: 2em;
@@ -80,7 +90,7 @@ $titleColor = get_option('client-title-color');
             echo '</p>';
             ?>
         </div>
-        <img src='<?php echo get_option('client-logo') ? get_option('client-logo') : \hh_default_login_logo() ?>' class='vilpy-theme-img-welcome' alt='Vilpy logo' />
+        <img src='<?php echo get_option('client-logo') ? get_option('client-logo') : \hh_default_login_logo() ?>' class='vilpy-theme-img-welcome' style='width:140px !important; min-width:140px !important; max-width:140px !important; height:auto !important; flex:0 0 140px; object-fit:contain;' alt='Vilpy logo' />
     </section>
 </section>
 <?php

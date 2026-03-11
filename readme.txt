@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.67 =
+
+Forced the dashboard welcome logo to a fixed width of 140px for uploaded SVG logos.
+
 = 0.0.66 =
 
 Switched plugin updates from the GitHub API to a static update.json feed to avoid 403 errors.

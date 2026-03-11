@@ -36,8 +36,12 @@
 }
 
 #vilpy-welcome .vilpy-theme-img-welcome {
-    max-width: 140px;
-    width: 100%;
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+    height: auto !important;
+    flex: 0 0 140px;
+    object-fit: contain;
     display: block;
 }
 
