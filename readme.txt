@@ -14,6 +14,10 @@ Installeren, activeren en gaan met die banaan
 
 == Changelog ==
 
+= 0.0.65 =
+
+Reduced the dashboard welcome logo width from 240px to 140px.
+
 = 0.0.64 =
 
 Sanitized the welcome text editor to remove TinyMCE bookmark markup from saved content.
