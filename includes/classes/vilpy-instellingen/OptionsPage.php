@@ -23,7 +23,7 @@ class OptionsPage
         register_setting('vilpy-settings', 'client-overlay', ['default' => '#061b17']);
         register_setting('vilpy-settings', 'client-title-color');
         register_setting('vilpy-settings', 'client-welcome-text', [$this, 'sanitizeWelcomeText']);
-        register_setting('vilpy-settings', 'admin-url-override');
+        register_setting('vilpy-settings', 'admin-url-override', [$this, 'sanitizeAdminUrlOverride']);
         register_setting('vilpy-settings', 'client-cloudflare-zone');
         register_setting('vilpy-settings', 'client-cache-control');
         register_setting('vilpy-settings', 'clear-cloudflare-on-save');
@@ -290,6 +290,33 @@ class OptionsPage
         </span>
         <?php
         echo ob_get_clean();
+    }
+
+    public function sanitizeAdminUrlOverride($value)
+    {
+        $value = sanitize_title((string) $value);
+        $reserved = [
+            'wp-admin',
+            'wp-login',
+            'wp-login.php',
+            'admin',
+            'login',
+            'dashboard',
+            'xmlrpc.php',
+            'wp-json',
+        ];
+
+        if ($value === '' || in_array($value, $reserved, true)) {
+            add_settings_error(
+                'admin-url-override',
+                'invalid-admin-url-override',
+                __('De aangepaste login URL was ongeldig of gereserveerd. De standaard slug "vilpy" wordt gebruikt.', themeTextDomain()),
+                'error'
+            );
+            return 'vilpy';
+        }
+
+        return $value;
     }
 
     //Admin content

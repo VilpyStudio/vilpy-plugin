@@ -4,11 +4,52 @@ namespace Vilpy;
 
 class VilpyChangeAdminUrl
 {
+    private array $reservedSlugs = [
+        'wp-admin',
+        'wp-login',
+        'wp-login.php',
+        'admin',
+        'login',
+        'dashboard',
+        'xmlrpc.php',
+        'wp-json',
+    ];
+
     private function getCustomSlug()
     {
         $slug = get_option('admin-url-override', 'vilpy');
         $slug = sanitize_title($slug);
+        if ($slug === '' || in_array($slug, $this->reservedSlugs, true)) {
+            return 'vilpy';
+        }
         return $slug ?: 'vilpy';
+    }
+
+    private function getRequestPath()
+    {
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+        $path = (string) wp_parse_url($requestUri, PHP_URL_PATH);
+
+        $homePath = (string) wp_parse_url(home_url('/'), PHP_URL_PATH);
+        $homePath = trim($homePath, '/');
+
+        if ($homePath !== '' && str_starts_with($path, '/' . $homePath)) {
+            $path = substr($path, strlen('/' . $homePath));
+        }
+
+        $path = '/' . ltrim($path, '/');
+
+        return untrailingslashit($path) ?: '/';
+    }
+
+    private function getCustomLoginPath()
+    {
+        return '/' . $this->getCustomSlug();
+    }
+
+    private function isCustomLoginRequest()
+    {
+        return $this->getRequestPath() === $this->getCustomLoginPath();
     }
     
     private function perfmattersManagesLogin()
@@ -38,15 +79,23 @@ class VilpyChangeAdminUrl
         add_filter('login_url', function ($login_url, $redirect, $force_reauth) use ($custom) {
             $url = home_url('/' . $custom . '/');
             if (!empty($redirect)) {
-                $url = add_query_arg('redirect_to', rawurlencode($redirect), $url);
+                $url = add_query_arg('redirect_to', $redirect, $url);
             }
             return $url;
         }, 10, 3);
 
         // Alle site_url('wp-login.php') verwijzen naar onze slug
         add_filter('site_url', function ($url, $path, $scheme) use ($custom) {
-            if ((string)$path === 'wp-login.php' || str_contains($url, 'wp-login.php')) {
-                return home_url('/' . $custom . '/');
+            $normalizedPath = ltrim((string) $path, '/');
+            $urlPath = (string) wp_parse_url($url, PHP_URL_PATH);
+
+            if ($normalizedPath === 'wp-login.php' || $urlPath === wp_parse_url(site_url('wp-login.php'), PHP_URL_PATH)) {
+                $customUrl = home_url('/' . $custom . '/');
+                $query = wp_parse_url($url, PHP_URL_QUERY);
+                if (!empty($query)) {
+                    $customUrl .= '?' . $query;
+                }
+                return $customUrl;
             }
             return $url;
         }, 10, 3);
@@ -59,18 +108,22 @@ class VilpyChangeAdminUrl
     {
         if ($this->perfmattersManagesLogin()) return;
 
-        $custom      = $this->getCustomSlug();
-        $request_uri = $_SERVER['REQUEST_URI'] ?? '';
-
-        if (preg_match('#/' . preg_quote($custom, '#') . '(/|$|\?)#', $request_uri)) {
+        if ($this->isCustomLoginRequest()) {
             global $error, $interim_login, $user_login, $pagenow;
 
             $error         = $error         ?? '';
             $interim_login = $interim_login ?? false;
             $user_login    = $user_login    ?? (isset($_POST['log']) ? sanitize_user(wp_unslash($_POST['log'])) : '');
-            $pagenow       = 'wp-login.php'; // voor scripts/styles die hierop leunen
+            $pagenow       = 'wp-login.php';
 
-            // Belangrijk: NIET meer $_SERVER['REQUEST_URI'] faken.
+            $queryString = isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== ''
+                ? '?' . ltrim((string) $_SERVER['QUERY_STRING'], '?')
+                : '';
+            $_SERVER['PHP_SELF'] = '/wp-login.php';
+            $_SERVER['SCRIPT_NAME'] = '/wp-login.php';
+            $_SERVER['SCRIPT_FILENAME'] = ABSPATH . 'wp-login.php';
+            $_SERVER['REQUEST_URI'] = '/wp-login.php' . $queryString;
+
             require_once ABSPATH . 'wp-login.php';
             exit;
         }
@@ -92,13 +145,10 @@ class VilpyChangeAdminUrl
             return true;
         }
 
-        $uri  = $_SERVER['REQUEST_URI'] ?? '';
+        $path = $this->getRequestPath();
         $post = ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST';
 
-        // let op, query strings zorgen voor een false
-        $hits_wp_login = (strpos($uri, 'wp-login.php') !== false);
-
-        if (!$hits_wp_login) {
+        if ($path !== '/wp-login.php') {
             return false;
         }
 
@@ -129,20 +179,20 @@ class VilpyChangeAdminUrl
     {
         if ($this->perfmattersManagesLogin()) return;
 
-        $uri = $_SERVER['REQUEST_URI'] ?? '';
+        $path = $this->getRequestPath();
 
         // Altijd toestaan:
-        if (strpos($uri, '/admin-ajax.php') !== false || strpos($uri, '/admin-post.php') !== false) {
+        if ($path === '/wp-admin/admin-ajax.php' || $path === '/wp-admin/admin-post.php') {
             return;
         }
 
         // Als iemand al op onze custom slug zit: niet redirecten
-        if (strpos($uri, '/' . $this->getCustomSlug() . '/') !== false) {
+        if ($this->isCustomLoginRequest()) {
             return;
         }
 
         // /wp-login.php: alleen redirecten als het GEEN pass-through is
-        if (strpos($uri, '/wp-login.php') !== false) {
+        if ($path === '/wp-login.php') {
             if ($this->isLoginPassThrough()) {
                 // Laat WordPress z'n normale login-flow lopen
                 return;
@@ -154,10 +204,11 @@ class VilpyChangeAdminUrl
         }
 
         // /wp-admin: als je niet ingelogd bent, redirect naar custom login met redirect_to terug naar de huidige admin-URL
-        if (preg_match('#/wp-admin/?($|\?)#', $uri)) {
+        if ($path === '/wp-admin' || str_starts_with($path, '/wp-admin/')) {
             if (!is_user_logged_in()) {
-                $target = home_url($uri); // volledige URL voor redirect_to
-                wp_redirect(wp_login_url($target)); // wp_login_url wordt al naar /{custom}/ gefilterd
+                $requestUri = $_SERVER['REQUEST_URI'] ?? '/wp-admin/';
+                $target = home_url($requestUri);
+                wp_safe_redirect(wp_login_url($target));
                 exit;
             }
         }
