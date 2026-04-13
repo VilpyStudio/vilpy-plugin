@@ -14,6 +14,7 @@ class VilpyChangeAdminUrl
         'xmlrpc.php',
         'wp-json',
     ];
+    private $bypassSiteUrlFilter = false;
 
     private function startsWith($haystack, $needle)
     {
@@ -56,6 +57,24 @@ class VilpyChangeAdminUrl
         return '/' . $this->getCustomSlug();
     }
 
+    private function shouldBypassLoginRewrite()
+    {
+        return $this->bypassSiteUrlFilter || !empty($_GET['vilpy-login']);
+    }
+
+    private function getRawLoginUrl(array $args = [])
+    {
+        $this->bypassSiteUrlFilter = true;
+        $url = site_url('wp-login.php', 'login');
+        $this->bypassSiteUrlFilter = false;
+
+        if (!empty($args)) {
+            $url = add_query_arg($args, $url);
+        }
+
+        return $url;
+    }
+
     private function isCustomLoginRequest()
     {
         return $this->getRequestPath() === $this->getCustomLoginPath();
@@ -86,6 +105,10 @@ class VilpyChangeAdminUrl
 
         // login_url() -> /{custom}
         add_filter('login_url', function ($login_url, $redirect, $force_reauth) use ($custom) {
+            if ($this->shouldBypassLoginRewrite()) {
+                return $login_url;
+            }
+
             $url = home_url('/' . $custom . '/');
             if (!empty($redirect)) {
                 $url = add_query_arg('redirect_to', $redirect, $url);
@@ -95,6 +118,10 @@ class VilpyChangeAdminUrl
 
         // Alle site_url('wp-login.php') verwijzen naar onze slug
         add_filter('site_url', function ($url, $path, $scheme) use ($custom) {
+            if ($this->shouldBypassLoginRewrite()) {
+                return $url;
+            }
+
             $normalizedPath = ltrim((string) $path, '/');
             $urlPath = (string) wp_parse_url($url, PHP_URL_PATH);
             $urlBasename = basename($urlPath);
@@ -119,22 +146,15 @@ class VilpyChangeAdminUrl
         if ($this->perfmattersManagesLogin()) return;
 
         if ($this->isCustomLoginRequest()) {
-            global $error, $interim_login, $user_login, $pagenow;
+            $args = [];
 
-            $error         = $error         ?? '';
-            $interim_login = $interim_login ?? false;
-            $user_login    = $user_login    ?? (isset($_POST['log']) ? sanitize_user(wp_unslash($_POST['log'])) : '');
-            $pagenow       = 'wp-login.php';
+            if (!empty($_GET)) {
+                $args = wp_unslash($_GET);
+            }
 
-            $queryString = isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== ''
-                ? '?' . ltrim((string) $_SERVER['QUERY_STRING'], '?')
-                : '';
-            $_SERVER['PHP_SELF'] = '/wp-login.php';
-            $_SERVER['SCRIPT_NAME'] = '/wp-login.php';
-            $_SERVER['SCRIPT_FILENAME'] = ABSPATH . 'wp-login.php';
-            $_SERVER['REQUEST_URI'] = '/wp-login.php' . $queryString;
+            $args['vilpy-login'] = '1';
 
-            require_once ABSPATH . 'wp-login.php';
+            wp_safe_redirect($this->getRawLoginUrl($args));
             exit;
         }
     }
@@ -147,6 +167,10 @@ class VilpyChangeAdminUrl
     {
         // Interim login is altijd toegestaan
         if (!empty($_GET['interim-login'])) {
+            return true;
+        }
+
+        if (!empty($_GET['vilpy-login'])) {
             return true;
         }
 
