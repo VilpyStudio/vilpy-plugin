@@ -4,7 +4,7 @@ namespace Vilpy;
 
 class VilpyChangeAdminUrl
 {
-    private array $reservedSlugs = [
+    private $reservedSlugs = [
         'wp-admin',
         'wp-login',
         'wp-login.php',
@@ -14,6 +14,15 @@ class VilpyChangeAdminUrl
         'xmlrpc.php',
         'wp-json',
     ];
+
+    private function startsWith($haystack, $needle)
+    {
+        if ($needle === '') {
+            return true;
+        }
+
+        return substr((string) $haystack, 0, strlen((string) $needle)) === (string) $needle;
+    }
 
     private function getCustomSlug()
     {
@@ -33,7 +42,7 @@ class VilpyChangeAdminUrl
         $homePath = (string) wp_parse_url(home_url('/'), PHP_URL_PATH);
         $homePath = trim($homePath, '/');
 
-        if ($homePath !== '' && str_starts_with($path, '/' . $homePath)) {
+        if ($homePath !== '' && $this->startsWith($path, '/' . $homePath)) {
             $path = substr($path, strlen('/' . $homePath));
         }
 
@@ -88,8 +97,9 @@ class VilpyChangeAdminUrl
         add_filter('site_url', function ($url, $path, $scheme) use ($custom) {
             $normalizedPath = ltrim((string) $path, '/');
             $urlPath = (string) wp_parse_url($url, PHP_URL_PATH);
+            $urlBasename = basename($urlPath);
 
-            if ($normalizedPath === 'wp-login.php' || $urlPath === wp_parse_url(site_url('wp-login.php'), PHP_URL_PATH)) {
+            if ($normalizedPath === 'wp-login.php' || $urlBasename === 'wp-login.php') {
                 $customUrl = home_url('/' . $custom . '/');
                 $query = wp_parse_url($url, PHP_URL_QUERY);
                 if (!empty($query)) {
@@ -204,7 +214,7 @@ class VilpyChangeAdminUrl
         }
 
         // /wp-admin: als je niet ingelogd bent, redirect naar custom login met redirect_to terug naar de huidige admin-URL
-        if ($path === '/wp-admin' || str_starts_with($path, '/wp-admin/')) {
+        if ($path === '/wp-admin' || $this->startsWith($path, '/wp-admin/')) {
             if (!is_user_logged_in()) {
                 $requestUri = $_SERVER['REQUEST_URI'] ?? '/wp-admin/';
                 $target = home_url($requestUri);
