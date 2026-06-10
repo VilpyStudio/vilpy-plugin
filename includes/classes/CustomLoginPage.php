@@ -8,6 +8,7 @@ class CustomLoginPage
     {
         $accent = get_option('client-accent') ?: '#061b17';
         $backgroundUrl = get_option('client-bg') ?: plugins_url('/assets/img/bg-dashboard.png', PLUGINROOT);
+        $backgroundColor = get_option('client-bg-color');
         $logoUrl = get_option('client-logo') ?: \hh_default_login_logo();
         $logoSize = (int) (get_option('client-logo-size') ?: 150);
         ?>
@@ -69,11 +70,13 @@ class CustomLoginPage
             }
 
             body.login {
-                background-color: #061b17;
+                background-color: <?php echo $backgroundColor ? esc_attr($backgroundColor) : '#061b17' ?>;
+                <?php if (!$backgroundColor) : ?>
                 background-image: url('<?php echo esc_url($backgroundUrl) ?>');
                 background-size: cover;
                 background-position: right center;
                 background-repeat: no-repeat;
+                <?php endif; ?>
                 min-height: 100vh;
             }
 

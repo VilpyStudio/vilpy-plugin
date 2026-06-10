@@ -19,6 +19,7 @@ class OptionsPage
         register_setting('vilpy-settings', 'client-logo');
         register_setting('vilpy-settings', 'client-logo-size', ['default' => '150']);
         register_setting('vilpy-settings', 'client-bg');
+        register_setting('vilpy-settings', 'client-bg-color');
         register_setting('vilpy-settings', 'client-accent', ['default' => '#061b17']);
         register_setting('vilpy-settings', 'client-overlay', ['default' => '#061b17']);
         register_setting('vilpy-settings', 'client-title-color');
@@ -36,6 +37,7 @@ class OptionsPage
         add_settings_field('client-logo', __('Klantlogo', themeTextDomain()), [$this, 'vilpyLogoField'], 'vilpy', 'vilpy-options');
         add_settings_field('client-logo-size', __('Grootte klantlogo', themeTextDomain()), [$this, 'vilpyLogoSizeField'], 'vilpy', 'vilpy-options');
         add_settings_field('client-bg', __('Klantachtergrond', themeTextDomain()), [$this, 'vilpyBgField'], 'vilpy', 'vilpy-options');
+        add_settings_field('client-bg-color', __('Achtergrondkleur loginscherm', themeTextDomain()), [$this, 'vilpyBgColorField'], 'vilpy', 'vilpy-options');
         add_settings_field('client-accent', __('Accentkleur', themeTextDomain()), [$this, 'vilpyAccentField'], 'vilpy', 'vilpy-options');
         add_settings_field('client-overlay', __('Overlaykleur', themeTextDomain()), [$this, 'vilpyoverlayField'], 'vilpy', 'vilpy-options');
         add_settings_field('client-welcome-text', __('Welkomsttekst', themeTextDomain()), [$this, 'vilpyWelcomeText'], 'vilpy', 'vilpy-options');
@@ -135,6 +137,20 @@ class OptionsPage
         <input id='vilpyBgMedia' type='hidden' name='client-bg' value='<?php echo $logo ?>'/>
         <input type='button' id='bgUploadButton' class='button button-primary' value='Upload achtergrond'>
         <input style='margin-left: 10px;' type='button' id='bgDeleteButton' class='button button-secondary' value='Verwijder achtergrond'>
+        <?php
+        echo ob_get_clean();
+    }
+
+    //Callback for background color field
+    public function vilpyBgColorField()
+    {
+        $color = get_option('client-bg-color');
+        ob_start();
+        ?>
+        <input id='bgColorField' name='client-bg-color' type="text" class="wp-color-result-text" placeholder="Selecteer kleur" value="<?php echo esc_attr($color) ?>">
+        <span style="font-size: .8em; max-width: 400px; display: block; padding-top: 5px;">
+                Wanneer een kleur is ingesteld, wordt deze als achtergrond van het loginscherm gebruikt en wordt de achtergrondafbeelding niet getoond. Laat leeg om de afbeelding te gebruiken.
+        </span>
         <?php
         echo ob_get_clean();
     }

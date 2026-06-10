@@ -189,6 +189,7 @@ window.onload = () => {
   jQuery("#accentField").wpColorPicker();
   jQuery("#overlayField").wpColorPicker();
   jQuery("#titleColorField").wpColorPicker();
+  jQuery("#bgColorField").wpColorPicker();
 
   //Popup
   const body = document.body;
