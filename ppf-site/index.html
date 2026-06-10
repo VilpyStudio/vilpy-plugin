@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLOSSWERK — Paint Protection Film &amp; Auto Detailing</title>
+  <meta name="description" content="GLOSSWERK is een premium PPF- en detailingstudio. Paint Protection Film, keramische coatings en showroom detailing voor wie het beste eist.">
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ══════════ PRELOADER ══════════ -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <span class="preloader__brand">GLOSSWERK</span>
+      <span class="preloader__count" id="preloaderCount">0</span>
+    </div>
+    <div class="preloader__bar"><span id="preloaderBar"></span></div>
+  </div>
+
+  <!-- ══════════ CURSOR ══════════ -->
+  <div class="cursor" id="cursor"><span class="cursor__label" id="cursorLabel"></span></div>
+
+  <!-- ══════════ NAV ══════════ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo" data-cursor>GLSWRK<sup>®</sup></a>
+    <nav class="nav__links">
+      <a href="#diensten" data-cursor>Diensten</a>
+      <a href="#resultaat" data-cursor>Resultaat</a>
+      <a href="#werk" data-cursor>Werk</a>
+      <a href="#proces" data-cursor>Proces</a>
+    </nav>
+    <a href="#contact" class="nav__cta btn-magnetic" data-cursor>
+      <span>Plan een intake</span>
+    </a>
+    <button class="nav__burger" id="navBurger" aria-label="Menu openen">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ══════════ MOBILE MENU ══════════ -->
+  <div class="menu" id="menu">
+    <nav class="menu__links">
+      <a href="#diensten">Diensten</a>
+      <a href="#resultaat">Resultaat</a>
+      <a href="#werk">Werk</a>
+      <a href="#proces">Proces</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="menu__foot">
+      <span>Rotterdam, NL</span>
+      <span>studio@glosswerk.nl</span>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="hero">
+      <div class="hero__bg">
+        <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=2200&auto=format&fit=crop" alt="Porsche onder studioverlichting" id="heroImg">
+        <div class="hero__veil"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__kicker" data-split="chars">Paint Protection Film · Keramische Coating · Detailing</p>
+        <h1 class="hero__title">
+          <span class="line"><span data-split="chars">ONZICHTBARE</span></span>
+          <span class="line line--accent"><span data-split="chars">BESCHERMING.</span></span>
+          <span class="line"><span data-split="chars">ZICHTBARE KLASSE.</span></span>
+        </h1>
+        <div class="hero__bottom">
+          <p class="hero__sub">Wij beschermen lak alsof het kunst is. Zelfherstellende PPF,
+          diepe glans en een afwerking die je alleen ziet bij auto's die er écht toe doen.</p>
+          <a href="#diensten" class="hero__scroll" data-cursor>
+            <span>Scroll</span>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="1.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero__meta">
+        <span>EST. 2017</span>
+        <span>ROTTERDAM — NL</span>
+        <span>XPEL CERTIFIED</span>
+      </div>
+    </section>
+
+    <!-- ══════════ MARQUEE ══════════ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marqueeTrack">
+        <span>PPF&nbsp;—&nbsp;Keramische Coating&nbsp;—&nbsp;Detailing&nbsp;—&nbsp;Glascoating&nbsp;—&nbsp;</span>
+        <span>PPF&nbsp;—&nbsp;Keramische Coating&nbsp;—&nbsp;Detailing&nbsp;—&nbsp;Glascoating&nbsp;—&nbsp;</span>
+        <span>PPF&nbsp;—&nbsp;Keramische Coating&nbsp;—&nbsp;Detailing&nbsp;—&nbsp;Glascoating&nbsp;—&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ══════════ STATEMENT ══════════ -->
+    <section class="statement">
+      <p class="statement__text" id="statementText">Elke auto die onze studio verlaat, draagt onze handtekening. Geen wasstraat, geen compromis — alleen vakwerk, gemeten in microns en uren geduld.</p>
+    </section>
+
+    <!-- ══════════ DIENSTEN ══════════ -->
+    <section class="services" id="diensten">
+      <div class="section-head">
+        <span class="section-head__index">01</span>
+        <h2 class="section-head__title" data-split="words">Diensten</h2>
+      </div>
+
+      <div class="services__list">
+        <article class="service" data-img="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=1200&auto=format&fit=crop">
+          <span class="service__num">01</span>
+          <h3 class="service__name">Paint Protection Film</h3>
+          <p class="service__desc">Zelfherstellende folie van 200 micron. Onzichtbaar, steenslagbestendig en tien jaar garantie. Full body of partieel.</p>
+          <span class="service__arrow">→</span>
+        </article>
+        <article class="service" data-img="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1200&auto=format&fit=crop">
+          <span class="service__num">02</span>
+          <h3 class="service__name">Keramische Coating</h3>
+          <p class="service__desc">9H gecertificeerde coating met extreme waterafstoting en diepe, natte glans. Tot vijf jaar bescherming per laag.</p>
+          <span class="service__arrow">→</span>
+        </article>
+        <article class="service" data-img="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1200&auto=format&fit=crop">
+          <span class="service__num">03</span>
+          <h3 class="service__name">Showroom Detailing</h3>
+          <p class="service__desc">Meertraps machinale polijst, swirl-verwijdering en interieurreiniging tot op de naad. Beter dan nieuw.</p>
+          <span class="service__arrow">→</span>
+        </article>
+        <article class="service" data-img="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=1200&auto=format&fit=crop">
+          <span class="service__num">04</span>
+          <h3 class="service__name">Glas &amp; Velgen</h3>
+          <p class="service__desc">Hydrofobe glascoating voor maximaal zicht en hittebestendige velgcoating tegen remstof en pekel.</p>
+          <span class="service__arrow">→</span>
+        </article>
+      </div>
+
+      <div class="service-preview" id="servicePreview"><img src="" alt="" id="servicePreviewImg"></div>
+    </section>
+
+    <!-- ══════════ BEFORE / AFTER ══════════ -->
+    <section class="compare" id="resultaat">
+      <div class="section-head">
+        <span class="section-head__index">02</span>
+        <h2 class="section-head__title" data-split="words">Het resultaat</h2>
+      </div>
+      <p class="compare__hint">Sleep de hendel — links zonder, rechts mét onze behandeling.</p>
+
+      <div class="compare__frame" id="compareFrame" data-cursor-label="DRAG">
+        <div class="compare__side compare__side--before">
+          <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2000&auto=format&fit=crop&sat=-100" alt="Auto vóór behandeling">
+          <span class="compare__tag">Vóór</span>
+        </div>
+        <div class="compare__side compare__side--after" id="compareAfter">
+          <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2000&auto=format&fit=crop" alt="Auto na behandeling">
+          <span class="compare__tag compare__tag--right">Ná</span>
+        </div>
+        <div class="compare__handle" id="compareHandle">
+          <span class="compare__grip">↔</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ WERK / HORIZONTAAL ══════════ -->
+    <section class="work" id="werk">
+      <div class="work__pin" id="workPin">
+        <div class="work__head">
+          <span class="section-head__index">03</span>
+          <h2 class="section-head__title" data-split="words">Recent werk</h2>
+        </div>
+        <div class="work__track" id="workTrack">
+          <figure class="work__item">
+            <div class="work__imgwrap"><img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1600&auto=format&fit=crop" alt="BMW M4 in blauw"></div>
+            <figcaption><span>BMW M4 Competition</span><em>Full body PPF</em></figcaption>
+          </figure>
+          <figure class="work__item">
+            <div class="work__imgwrap"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" alt="Gele Porsche 911"></div>
+            <figcaption><span>Porsche 911 GT3</span><em>PPF + keramisch</em></figcaption>
+          </figure>
+          <figure class="work__item">
+            <div class="work__imgwrap"><img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1600&auto=format&fit=crop" alt="Audi sportwagen"></div>
+            <figcaption><span>Audi R8 V10</span><em>Showroom detailing</em></figcaption>
+          </figure>
+          <figure class="work__item">
+            <div class="work__imgwrap"><img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1600&auto=format&fit=crop" alt="Mercedes AMG"></div>
+            <figcaption><span>Mercedes-AMG GT</span><em>Front-end PPF</em></figcaption>
+          </figure>
+          <figure class="work__item">
+            <div class="work__imgwrap"><img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1600&auto=format&fit=crop" alt="Lamborghini"></div>
+            <figcaption><span>Lamborghini Huracán</span><em>Full body PPF + interieur</em></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ PROCES ══════════ -->
+    <section class="process" id="proces">
+      <div class="section-head">
+        <span class="section-head__index">04</span>
+        <h2 class="section-head__title" data-split="words">Zo werken wij</h2>
+      </div>
+      <ol class="process__steps">
+        <li class="step">
+          <span class="step__num">01</span>
+          <h3>Intake &amp; inspectie</h3>
+          <p>We meten de lakdikte, beoordelen de staat van de lak en stellen samen het juiste pakket samen.</p>
+        </li>
+        <li class="step">
+          <span class="step__num">02</span>
+          <h3>Decontaminatie</h3>
+          <p>Meertraps handwas, kleien en ijzerverwijderaar. De lak moet chemisch schoon zijn voor we verder gaan.</p>
+        </li>
+        <li class="step">
+          <span class="step__num">03</span>
+          <h3>Correctie &amp; applicatie</h3>
+          <p>Machinaal polijsten tot een vlekkeloze basis, daarna PPF of coating in onze stofvrije applicatieruimte.</p>
+        </li>
+        <li class="step">
+          <span class="step__num">04</span>
+          <h3>Controle &amp; oplevering</h3>
+          <p>Inspectie onder daglichtlampen, nazorg-instructies en garantiecertificaat. Pas dan geven we de sleutel terug.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ══════════ STATS ══════════ -->
+    <section class="stats">
+      <div class="stat"><span class="stat__value" data-count="850">0</span><span class="stat__plus">+</span><p>auto's behandeld</p></div>
+      <div class="stat"><span class="stat__value" data-count="10">0</span><span class="stat__plus">jr</span><p>garantie op PPF</p></div>
+      <div class="stat"><span class="stat__value" data-count="200">0</span><span class="stat__plus">µm</span><p>zelfherstellende folie</p></div>
+      <div class="stat"><span class="stat__value" data-count="5.0">0</span><span class="stat__plus">★</span><p>gemiddelde beoordeling</p></div>
+    </section>
+
+    <!-- ══════════ CTA / CONTACT ══════════ -->
+    <section class="contact" id="contact">
+      <p class="contact__kicker">Klaar voor de behandeling die je auto verdient?</p>
+      <a href="mailto:studio@glosswerk.nl" class="contact__link btn-magnetic" data-cursor-label="MAIL">
+        <span class="contact__big" data-split="chars">PLAN EEN INTAKE</span>
+      </a>
+      <div class="contact__details">
+        <div><span>Studio</span><p>Glanshaven 12<br>3024 AB Rotterdam</p></div>
+        <div><span>Contact</span><p>studio@glosswerk.nl<br>+31 10 123 45 67</p></div>
+        <div><span>Open</span><p>ma – vr 08:30 – 18:00<br>za op afspraak</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="footer">
+    <div class="footer__brand" aria-hidden="true">GLOSSWERK</div>
+    <div class="footer__bar">
+      <span>© 2026 Glosswerk Studio</span>
+      <div class="footer__social">
+        <a href="#" data-cursor>Instagram</a>
+        <a href="#" data-cursor>YouTube</a>
+        <a href="#" data-cursor>TikTok</a>
+      </div>
+      <span>KvK 12345678</span>
+    </div>
+  </footer>
+
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
