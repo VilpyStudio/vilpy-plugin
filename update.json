@@ -1,19 +1,19 @@
 {
   "name": "Vilpy",
   "slug": "vilpy",
-  "version": "0.0.72",
+  "version": "0.0.73",
   "author": "Vilpy",
   "author_homepage": "https://github.com/VilpyStudio/vilpy-plugin",
   "homepage": "https://github.com/VilpyStudio/vilpy-plugin",
   "requires": "4.7",
   "tested": "6.9.3",
   "requires_php": "7.0",
-  "last_updated": "2026-04-13 10:50:00",
+  "last_updated": "2026-06-10 14:20:00",
   "download_url": "https://github.com/VilpyStudio/vilpy-plugin/releases/latest/download/vilpy-start.zip",
   "sections": {
     "description": "Vilpy plugin voor beheer van WordPress websites.",
     "installation": "Upload de plugin, activeer hem en configureer de gewenste Vilpy-instellingen.",
-    "changelog": "<h4>0.0.72</h4><p>Changed the Vilpy login slug to use a controlled passthrough to native wp-login.php instead of rendering it internally, preventing white screens on custom login slugs.</p><h4>0.0.71</h4><p>Fixed a recursive custom login URL filter that could still break the Vilpy login slug flow.</p><h4>0.0.70</h4><p>Hardened the custom login slug routing and validation to prevent white screens when replacing wp-admin/wp-login with a Vilpy slug.</p><h4>0.0.69</h4><p>Replaced both plugin banner assets with the new update plugin artwork.</p>"
+    "changelog": "<h4>0.0.73</h4><p>Login page now respects the configured client logo size setting instead of a fixed width, and the login screen is fully responsive on mobile.</p><h4>0.0.72</h4><p>Changed the Vilpy login slug to use a controlled passthrough to native wp-login.php instead of rendering it internally, preventing white screens on custom login slugs.</p><h4>0.0.71</h4><p>Fixed a recursive custom login URL filter that could still break the Vilpy login slug flow.</p><h4>0.0.70</h4><p>Hardened the custom login slug routing and validation to prevent white screens when replacing wp-admin/wp-login with a Vilpy slug.</p><h4>0.0.69</h4><p>Replaced both plugin banner assets with the new update plugin artwork.</p>"
   },
   "banners": {
     "low": "https://raw.githubusercontent.com/VilpyStudio/vilpy-plugin/main/assets/banner-772x250.jpg",

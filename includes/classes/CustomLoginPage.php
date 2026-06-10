@@ -9,6 +9,7 @@ class CustomLoginPage
         $accent = get_option('client-accent') ?: '#061b17';
         $backgroundUrl = get_option('client-bg') ?: plugins_url('/assets/img/bg-dashboard.png', PLUGINROOT);
         $logoUrl = get_option('client-logo') ?: \hh_default_login_logo();
+        $logoSize = (int) (get_option('client-logo-size') ?: 150);
         ?>
         <script>
             window.addEventListener('DOMContentLoaded', () => {
@@ -59,7 +60,9 @@ class CustomLoginPage
             }
 
             #login .message, #login #loginform, #login #nav, #login #backtoblog, form#lostpasswordform {
-                width: 380px;
+                width: 100%;
+                max-width: 380px;
+                box-sizing: border-box;
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
@@ -76,11 +79,17 @@ class CustomLoginPage
 
             #login {
                 width: auto !important;
+                max-width: 100%;
+                box-sizing: border-box;
                 padding-top: 165px !important;
+                padding-left: 24px !important;
+                padding-right: 24px !important;
             }
 
             #login_error {
-                width: 380px;
+                width: 100%;
+                max-width: 380px;
+                box-sizing: border-box;
                 display: block;
                 margin-left: auto!important;
                 margin-right: auto;
@@ -130,8 +139,8 @@ class CustomLoginPage
 
             #login h1 a img, .login h1 a img {
                 display: block;
-                width: 120px;
-                max-width: 120px;
+                width: <?php echo $logoSize ?>px;
+                max-width: 100%;
                 max-height: none;
                 height: auto;
             }
@@ -143,6 +152,30 @@ class CustomLoginPage
 
             body.login::before {
                 display: none;
+            }
+
+            @media screen and (max-width: 600px) {
+                body.login {
+                    background-position: center center;
+                }
+
+                #login {
+                    padding-top: 60px !important;
+                    padding-bottom: 60px !important;
+                    padding-left: 16px !important;
+                    padding-right: 16px !important;
+                }
+
+                #login h1 {
+                    margin-bottom: 24px !important;
+                }
+
+                .language-switcher {
+                    left: 0;
+                    right: 0;
+                    border-radius: 0;
+                    text-align: center;
+                }
             }
         </style>
         <?php
