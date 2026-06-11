@@ -356,4 +356,6 @@ burger.addEventListener("click", () => {
 if (prefersReducedMotion) {
   gsap.globalTimeline.timeScale(100);
   marqueeTween.pause();
+  const heroVideo = document.querySelector(".hero__bg video");
+  if (heroVideo) heroVideo.pause();
 }
