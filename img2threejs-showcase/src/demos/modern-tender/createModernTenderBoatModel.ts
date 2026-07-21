@@ -101,10 +101,10 @@ function buildStations(N: number): Station[] {
   for (let i = 0; i <= N; i++) {
     const t = i / N; // 0 stern .. 1 bow
     const z = lerp(zStern, zBow, t);
-    // half beam: full aft, hold amidships, fine entry to a sharp bow
-    let hb = 0.96 + 0.12 * smootherstep(0.0, 0.34, t);
-    hb -= 0.06 * smootherstep(0.55, 0.82, t);
-    hb *= 1 - Math.pow(smootherstep(0.82, 1.0, t), 1.7); // sharpen the bow
+    // half beam: fuller, held long amidships, fine entry to a sharp bow
+    let hb = 1.02 + 0.16 * smootherstep(0.0, 0.32, t);
+    hb -= 0.03 * smootherstep(0.58, 0.85, t);
+    hb *= 1 - Math.pow(smootherstep(0.85, 1.0, t), 1.8); // sharpen the bow
     hb = Math.max(0.015, hb);
     // low sheer, gentle sweep up to a raised bow, a touch of stern lift
     const sheerY =
@@ -219,7 +219,7 @@ function makeQuiltTexture(): THREE.CanvasTexture {
   const ctx = cv.getContext('2d')!;
   ctx.fillStyle = '#808080';
   ctx.fillRect(0, 0, 256, 256);
-  const cells = 5;
+  const cells = 6;
   const step = 256 / cells;
   for (let gy = -1; gy < cells + 1; gy++) {
     for (let gx = -1; gx < cells + 1; gx++) {
@@ -524,9 +524,9 @@ export function createModernTenderBoatModel(options: ModernTenderBoatOptions = {
     color: 0xc7ba9e,
     roughness: 0.92,
     bumpMap: quiltTex,
-    bumpScale: 1.5,
+    bumpScale: 2.2,
   });
-  quiltTex.repeat.set(6, 6);
+  quiltTex.repeat.set(9, 9);
   const seatBase = new THREE.MeshStandardMaterial({ color: 0x8a919b, roughness: 0.6 });
   const teakTex = makeTeakHerringboneTexture();
   teakTex.repeat.set(2, 2);
@@ -579,6 +579,21 @@ export function createModernTenderBoatModel(options: ModernTenderBoatOptions = {
   const railCurve = new THREE.CatmullRomCurve3(railPts, true, 'catmullrom', 0.5);
   root.add(new THREE.Mesh(new THREE.TubeGeometry(railCurve, 280, 0.014, 8, true), chrome));
 
+  // swept character line on each topside: high at the bow, dipping toward mid-aft
+  const charDrop = (z: number): number => {
+    const t = (z + 3.35) / 6.7; // 0 stern .. 1 bow
+    return 0.1 + 0.12 * smootherstep(0.15, 0.6, t) - 0.1 * smootherstep(0.62, 1.0, t);
+  };
+  for (const side of [-1, 1]) {
+    const pts: THREE.Vector3[] = [];
+    for (const s of stations) {
+      if (s.z < -2.9 || s.z > 3.0) continue;
+      pts.push(new THREE.Vector3(side * s.hb * 0.995, s.sheerY - charDrop(s.z), s.z));
+    }
+    const cCurve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+    root.add(new THREE.Mesh(new THREE.TubeGeometry(cCurve, 160, 0.009, 6, false), darkTrim));
+  }
+
   // ---- cockpit sole + foredeck (teak)
   root.add(buildSurface(spanFull(stations, -3.0, 1.55, 26, 0.16), soleY, teak, 0.55));
   const foredeckSpans = spanFull(stations, 2.35, 3.2, 8, 0.12);
@@ -598,16 +613,16 @@ export function createModernTenderBoatModel(options: ModernTenderBoatOptions = {
 
   // aft sunpad: full-beam pad over the back third
   cushions.add(
-    buildCushion(spanFull(stations, -3.15, -1.2, 16, 0.07), 0.46, 0.15, upholstery, seatBase, 0.03),
+    buildCushion(spanFull(stations, -3.15, -1.2, 16, 0.05), 0.46, 0.15, upholstery, seatBase, 0.03),
   );
-  // side lounges: fill each side up to the coaming, leaving a central teak walkway
-  const gap = 0.3;
+  // side lounges: fill each side up to the coaming, leaving a slim central teak walkway
+  const gap = 0.22;
   const sideSteps = 16;
   const leftSpans: Span[] = [];
   const rightSpans: Span[] = [];
   for (let i = 0; i <= sideSteps; i++) {
     const z = lerp(-1.35, 1.55, i / sideSteps);
-    const xi = innerX(stations, z, 0.07);
+    const xi = innerX(stations, z, 0.05);
     rightSpans.push({ z, xL: gap, xR: xi });
     leftSpans.push({ z, xL: -xi, xR: -gap });
   }
@@ -615,7 +630,7 @@ export function createModernTenderBoatModel(options: ModernTenderBoatOptions = {
   cushions.add(buildCushion(leftSpans, 0.44, 0.13, upholstery, seatBase, 0.025));
   // bow lounge: full-beam infill wrapping the forward cockpit
   cushions.add(
-    buildCushion(spanFull(stations, 1.55, 2.42, 10, 0.07), 0.44, 0.13, upholstery, seatBase, 0.03),
+    buildCushion(spanFull(stations, 1.55, 2.42, 10, 0.05), 0.44, 0.13, upholstery, seatBase, 0.03),
   );
 
   // angled backrest bolsters along both coamings (cushions up to the rim)
