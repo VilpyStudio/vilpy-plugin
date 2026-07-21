@@ -24,6 +24,11 @@ import {
   createSonyWf1000xm3LookDevLights,
   makeSonyBackground,
 } from './sony-wf1000xm3/createSonyWf1000xm3Model';
+import {
+  createModernTenderBoatModel,
+  createModernTenderBoatLookDevLights,
+  makeTenderStudioBackground,
+} from './modern-tender/createModernTenderBoatModel';
 
 export interface DemoEntry {
   /** route id, e.g. 'crown-chest' */
@@ -53,6 +58,38 @@ const BASE = import.meta.env.BASE_URL;
 const REPO = 'https://github.com/hoainho/img2threejs-showcase/blob/main';
 
 export const demos: DemoEntry[] = [
+  {
+    id: 'modern-tender',
+    title: 'Modern Tender Boat',
+    subjectClass: 'object',
+    blurb:
+      'A modern open day-tender / sloop rebuilt in code from three studio reference views ' +
+      '(3/4 aerial, top-down plan, port profile): a grey semi-gloss gelcoat hull with a plumb ' +
+      'bow, hard chine and lofted V-bottom; a rounded grey gunwale cap wrapping the cockpit; a ' +
+      'light teak sole laid in a central herringbone field; taupe diamond-quilted cushions (a ' +
+      'U-shaped bow lounge, angled side bolsters and a big aft sunpad); a centre console with a ' +
+      'raked matte-black dash, throttle lever and a stainless destroyer wheel; a teak-slatted aft ' +
+      'swim platform, a stainless whip antenna, a green nav light and a recessed hull-side vent. ' +
+      'Live: a gentle floating bob + roll and a slow idle sway of the helm.',
+    referenceImage: `${BASE}references/modern-tender.png`,
+    sourcePath: 'src/demos/modern-tender/createModernTenderBoatModel.ts',
+    sourceUrl: `${REPO}/src/demos/modern-tender/createModernTenderBoatModel.ts`,
+    generatedWith: 'img2threejs v1.2',
+    author: 'Vilpy',
+    authorUrl: 'https://github.com/VilpyStudio',
+    status: 'final',
+    cameraPosition: [-8.8, 3.4, 7.6],
+    cameraTarget: [0, 0.25, -0.2],
+    cameraFov: 30,
+    build: (scene) => {
+      scene.background = makeTenderStudioBackground();
+      const group = createModernTenderBoatModel({ shadows: true });
+      scene.add(group);
+      const lights = createModernTenderBoatLookDevLights();
+      scene.add(lights);
+      return group;
+    },
+  },
   {
     id: 'sony-wf1000xm3',
     title: 'Sony WF-1000XM3 Earbuds + Case',
