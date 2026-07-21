@@ -264,7 +264,7 @@ function makeTeakHerringboneTexture(): THREE.CanvasTexture {
   cv.width = cv.height = 512;
   const ctx = cv.getContext('2d')!;
   const rnd = mulberry32(1337);
-  ctx.fillStyle = '#cbb890';
+  ctx.fillStyle = '#d3c096';
   ctx.fillRect(0, 0, 512, 512);
   const plank = (x: number, y: number, w: number, h: number, rot: number): void => {
     ctx.save();
@@ -453,39 +453,66 @@ function buildConsole(
 ): { group: THREE.Group; wheelSpin: THREE.Group } {
   const g = new THREE.Group();
   g.name = 'console';
-  const h = 0.42;
-  const pedestal = new THREE.Mesh(new THREE.BoxGeometry(0.44, h, 0.5), greyMat);
-  pedestal.position.y = soleY + h / 2;
-  pedestal.castShadow = true;
-  pedestal.receiveShadow = true;
-  g.add(pedestal);
+  const redMat = new THREE.MeshStandardMaterial({ color: 0xc0392b, roughness: 0.4 });
 
-  const dash = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.26, 0.05), blackMat);
-  dash.position.set(0, soleY + h + 0.06, -0.2);
-  dash.rotation.x = THREE.MathUtils.degToRad(26);
+  // grey pedestal (tall, slightly narrower, gently tapered toward the top)
+  const h = 0.62;
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.5, h, 0.56), greyMat);
+  base.position.y = soleY + h / 2;
+  base.castShadow = true;
+  base.receiveShadow = true;
+  g.add(base);
+  const topCap = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.06, 0.5), greyMat);
+  topCap.position.y = soleY + h + 0.02;
+  topCap.castShadow = true;
+  g.add(topCap);
+
+  // black raked dash facing aft, with small round gauges + a red kill switch
+  const dashPivot = new THREE.Group();
+  dashPivot.position.set(0, soleY + h + 0.03, -0.22);
+  dashPivot.rotation.x = THREE.MathUtils.degToRad(32);
+  g.add(dashPivot);
+  const dash = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.3, 0.05), blackMat);
   dash.castShadow = true;
-  g.add(dash);
+  dashPivot.add(dash);
+  for (const dx of [-0.11, 0.02]) {
+    const gauge = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.02, 20), steelMat);
+    gauge.rotation.x = Math.PI / 2;
+    gauge.position.set(dx, 0.03, 0.035);
+    dashPivot.add(gauge);
+  }
+  const kill = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.02, 12), redMat);
+  kill.rotation.x = Math.PI / 2;
+  kill.position.set(0.15, -0.06, 0.035);
+  dashPivot.add(kill);
+  // black throttle lever to starboard on the top cap
+  const throttle = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.012, 0.13, 8), blackMat);
+  throttle.position.set(0.2, soleY + h + 0.1, -0.02);
+  throttle.rotation.x = THREE.MathUtils.degToRad(-28);
+  g.add(throttle);
 
+  // black 3-spoke destroyer wheel on a short raked column, facing aft
   const wheelMount = new THREE.Group();
-  wheelMount.position.set(0, soleY + h + 0.12, -0.24);
-  wheelMount.rotation.x = THREE.MathUtils.degToRad(28);
+  wheelMount.position.set(0, soleY + h + 0.14, -0.26);
+  wheelMount.rotation.x = THREE.MathUtils.degToRad(30);
   g.add(wheelMount);
   const wheelSpin = new THREE.Group();
   wheelSpin.name = 'wheelSpin';
   wheelMount.add(wheelSpin);
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.13, 0.016, 12, 40), blackMat);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.135, 0.015, 12, 44), blackMat);
   wheelSpin.add(rim);
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.05, 16), steelMat);
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.05, 16), steelMat);
   hub.rotation.x = Math.PI / 2;
   wheelSpin.add(hub);
-  for (let i = 0; i < 4; i++) {
-    const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.11, 0.01), steelMat);
-    spoke.position.set(Math.sin((i * Math.PI) / 2) * 0.06, Math.cos((i * Math.PI) / 2) * 0.06, 0);
-    spoke.rotation.z = (i * Math.PI) / 2;
+  for (let i = 0; i < 3; i++) {
+    const ang = (i * 2 * Math.PI) / 3 + Math.PI / 2; // one spoke up, two lower
+    const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.12, 0.012), blackMat);
+    spoke.position.set(Math.cos(ang) * 0.065, Math.sin(ang) * 0.065, 0);
+    spoke.rotation.z = ang - Math.PI / 2;
     wheelSpin.add(spoke);
   }
-  const column = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.16, 12), blackMat);
-  column.position.set(0, -0.11, -0.02);
+  const column = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.028, 0.16, 12), blackMat);
+  column.position.set(0, -0.12, -0.02);
   wheelMount.add(column);
   return { group: g, wheelSpin };
 }
@@ -644,10 +671,15 @@ export function createModernTenderBoatModel(options: ModernTenderBoatOptions = {
     cushions.add(bolster);
   }
 
-  // ---- console
-  const { group: console3d, wheelSpin } = buildConsole(capMat, blackMat, steel, soleY);
-  console3d.position.set(0, 0, -0.55);
+  // ---- console (slightly forward + offset to port, like the reference)
+  const helmGrey = new THREE.MeshPhysicalMaterial({ color: 0x767c86, roughness: 0.4, clearcoat: 0.4 });
+  const { group: console3d, wheelSpin } = buildConsole(helmGrey, blackMat, steel, soleY);
+  console3d.position.set(-0.12, 0, 0.05);
   root.add(console3d);
+  // dark recessed locker / step just aft of the console
+  const locker = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.14, 0.5), darkTrim);
+  locker.position.set(-0.12, soleY + 0.06, -0.55);
+  root.add(locker);
 
   // ---- fittings
   const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.009, 0.8, 8), steel);
