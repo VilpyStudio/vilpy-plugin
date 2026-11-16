@@ -5,7 +5,7 @@
  * Plugin Name:       Vilpy
  * Plugin URI:        https://github.com/VilpyStudio/vilpy-plugin
  * Description:       Beheer-plugin van Studio Vilpy: inlogpagina en inlogadres, dashboard en admin-stijl.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires PHP:      7.4
  * Author:            Studio Vilpy
  * Author URI:        https://vilpy.nl

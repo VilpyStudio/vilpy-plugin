@@ -155,6 +155,27 @@ class CustomLoginPage
                 color: #fff !important;
             }
 
+            <?php if (!$backgroundColor) : ?>
+            /* Bij een achtergrondfoto: links op een donker, wazig vlak zodat ze altijd leesbaar zijn */
+            .login #backtoblog a, .login #nav a {
+                display: inline-block;
+                padding: 6px 12px;
+                border-radius: 6px;
+                color: #fff !important;
+                background: rgba(6, 27, 23, .55);
+                -webkit-backdrop-filter: blur(6px);
+                backdrop-filter: blur(6px);
+            }
+
+            .login #backtoblog a:hover, .login #nav a:hover {
+                background: rgba(6, 27, 23, .75);
+            }
+
+            .login #backtoblog {
+                margin-top: 8px !important;
+            }
+            <?php endif; ?>
+
             .dashicons-visibility {
                 color: var(--accent) !important;
             }
