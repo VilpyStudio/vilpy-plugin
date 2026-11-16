@@ -9,7 +9,7 @@ class CustomLoginPage
         $accent = get_option('client-accent') ?: '#061b17';
         $backgroundUrl = get_option('client-bg') ?: plugins_url('/assets/img/bg-dashboard.png', PLUGINROOT);
         $backgroundColor = get_option('client-bg-color');
-        $logoUrl = get_option('client-logo') ?: \hh_default_login_logo();
+        $logoUrl = get_option('client-logo') ?: \vilpy_default_login_logo();
         $logoSize = (int) (get_option('client-logo-size') ?: 150);
         ?>
         <script>
@@ -30,7 +30,7 @@ class CustomLoginPage
             }
 
             <?php
-                $languageSelector = get_option('hide-language-selector');
+                $languageSelector = true; // taalkeuze altijd verborgen
             ?>
 
 
@@ -78,15 +78,18 @@ class CustomLoginPage
                 background-repeat: no-repeat;
                 <?php endif; ?>
                 min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
             }
 
             #login {
-                width: auto !important;
-                max-width: 100%;
+                width: 100% !important;
+                max-width: 428px;
                 box-sizing: border-box;
-                padding-top: 165px !important;
-                padding-left: 24px !important;
-                padding-right: 24px !important;
+                padding: 48px 24px !important;
+                margin: 0 auto;
             }
 
             #login_error {
@@ -98,9 +101,31 @@ class CustomLoginPage
                 margin-right: auto;
             }
 
-            input[type=text]:focus, input[type=password]:focus {
+            body.login form input[type=text],
+            body.login form input[type=password],
+            body.login form input[type=email] {
+                font-size: 16px;
+                min-height: 44px;
+                padding: 8px 12px;
+                border: 1px solid #dcdcde;
+                border-radius: 6px;
+                background: #fff;
+                box-shadow: none;
+            }
+
+            body.login form label {
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            body.login .button.wp-hide-pw {
+                min-height: 44px;
+            }
+
+            input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
                 border-color: var(--accent) !important;
-                box-shadow: 0 0 0 1px var(--accent) !important;
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent) !important;
+                outline: none;
             }
 
             input[type="checkbox"]:focus {
@@ -108,21 +133,81 @@ class CustomLoginPage
                 box-shadow: 0 0 0 1px var(--accent) !important;
             }
 
+            body.login input[type=checkbox] {
+                border-radius: 3px;
+                accent-color: var(--accent);
+            }
+
+            .login #nav, .login #backtoblog {
+                text-align: center;
+                padding: 0 !important;
+                margin: 18px auto 0 !important;
+                font-size: 14px;
+            }
+
             .login #backtoblog a, .login #nav a {
-                color: white !important;
+                color: rgba(255, 255, 255, .75) !important;
+                text-decoration: none;
+                transition: color .2s;
+            }
+
+            .login #backtoblog a:hover, .login #nav a:hover {
+                color: #fff !important;
             }
 
             .dashicons-visibility {
                 color: var(--accent) !important;
             }
 
-            input#wp-submit {
-                background-color: var(--accent) !important;
-                border-color: var(--accent) !important;
+            body.login .forgetmenot {
+                float: none;
+                margin-bottom: 0;
             }
-            #wp-submit {
-                border-color: #061b17;
-                background-color: #061b17;
+
+            body.login .submit {
+                clear: both;
+                padding-top: 18px;
+            }
+
+            body.login.wp-core-ui input#wp-submit {
+                float: none;
+                width: 100%;
+                min-height: 44px;
+                padding: 0 20px;
+                font-size: 15px;
+                font-weight: 600;
+                line-height: 44px;
+                color: #fff !important;
+                background-color: var(--accent) !important;
+                border: 0 !important;
+                border-radius: 6px !important;
+                box-shadow: none !important;
+                text-shadow: none;
+                transition: filter .2s;
+            }
+
+            body.login.wp-core-ui input#wp-submit:hover,
+            body.login.wp-core-ui input#wp-submit:focus {
+                filter: brightness(.9);
+            }
+
+            body.login .message,
+            body.login .notice,
+            body.login #login_error {
+                border: 0 !important;
+                border-left: 3px solid var(--accent) !important;
+                border-radius: 6px !important;
+                box-shadow: none !important;
+                padding: 12px 14px !important;
+                margin-bottom: 16px !important;
+            }
+
+            body.login #login_error {
+                border-left-color: #c2410c !important;
+            }
+
+            .privacy-policy-page-link {
+                display: none;
             }
 
             #login h1 {
@@ -149,8 +234,11 @@ class CustomLoginPage
             }
 
             body.login form {
-                border-radius: 12px;
-                box-shadow: none;
+                border: 0;
+                border-radius: 10px;
+                padding: 28px 26px;
+                margin-top: 0;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 24px 60px -30px rgba(0, 0, 0, .5);
             }
 
             body.login::before {
@@ -163,10 +251,11 @@ class CustomLoginPage
                 }
 
                 #login {
-                    padding-top: 60px !important;
-                    padding-bottom: 60px !important;
-                    padding-left: 16px !important;
-                    padding-right: 16px !important;
+                    padding: 40px 16px !important;
+                }
+
+                body.login form {
+                    padding: 22px 20px;
                 }
 
                 #login h1 {

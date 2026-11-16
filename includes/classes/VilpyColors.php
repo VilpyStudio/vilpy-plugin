@@ -6,12 +6,11 @@ class VilpyColors
 {
     public function registerVilpyColors()
     {
-        $path = plugins_url('/assets/css/vilpytheme.css', PLUGINROOT);
         wp_admin_css_color(
             'vilpywp',
-            __('VilpyWP'),
-            $path,
-            ['#061b17', '#fff', '#f18412' , '#1d506d']
+            __('Vilpy', 'vilpy'),
+            add_query_arg('v', \vilpy_asset_ver('/assets/css/vilpytheme.css'), plugins_url('/assets/css/vilpytheme.css', PLUGINROOT)),
+            ['#061B17', '#0C201B', '#1F6B4E', '#1B2B27']
         );
     }
 

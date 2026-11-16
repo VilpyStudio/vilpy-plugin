@@ -1,203 +1,73 @@
 <?php
 
-if (!function_exists('themeTextDomain')) {
-    function themeTextDomain()
+/**
+ * Algemene helpers van de Vilpy-plugin.
+ */
+
+if (!function_exists('vilpy_version')) {
+    function vilpy_version()
     {
-        return 'vilpy';
+        static $version = null;
+        if ($version === null) {
+            $data = get_file_data(Vilpy\PLUGINROOT, ['Version' => 'Version']);
+            $version = $data['Version'] ?: '0';
+        }
+        return $version;
     }
 }
 
-if (!function_exists('hh_brand_name')) {
-    function hh_brand_name()
+if (!function_exists('vilpy_brand_name')) {
+    function vilpy_brand_name()
     {
-        return defined('HH_BRAND_NAME') ? HH_BRAND_NAME : 'Vilpy';
+        return 'Vilpy';
     }
 }
 
-if (!function_exists('hh_brand_subtitle')) {
-    function hh_brand_subtitle()
-    {
-        return defined('HH_BRAND_SUBTITLE') ? HH_BRAND_SUBTITLE : 'Vilpy';
-    }
-}
-
-if (!function_exists('hh_default_logo')) {
-    function hh_default_logo()
+if (!function_exists('vilpy_default_logo')) {
+    function vilpy_default_logo()
     {
         return plugins_url('/assets/img/vilpy-logo-dark.svg', Vilpy\PLUGINROOT);
     }
 }
 
-if (!function_exists('hh_default_login_logo')) {
-    function hh_default_login_logo()
+if (!function_exists('vilpy_default_login_logo')) {
+    function vilpy_default_login_logo()
     {
         return plugins_url('/assets/img/vilpy-logo-login.svg', Vilpy\PLUGINROOT);
     }
 }
 
-if (!function_exists('hh_support_phone')) {
-    function hh_support_phone()
+if (!function_exists('vilpy_default_welcome_text')) {
+    function vilpy_default_welcome_text()
     {
-        return defined('HH_SUPPORT_PHONE') ? HH_SUPPORT_PHONE : '';
+        $subject = class_exists('WooCommerce') ? 'webshop' : 'website';
+        return 'Welkom in het dashboard van je ' . $subject . '. Hier kun je de belangrijkste inhoud beheren.';
     }
 }
 
-if (!function_exists('hh_support_email')) {
-    function hh_support_email()
+/**
+ * Is de huidige gebruiker een Vilpy-medewerker? Standaard: e-mailadres op
+ * vilpy.nl of een gebruikersnaam met "vilpy". Aan te passen met de filter 'vilpy_is_staff'.
+ */
+if (!function_exists('vilpy_is_staff')) {
+    function vilpy_is_staff($user = null)
     {
-        return defined('HH_SUPPORT_EMAIL') ? HH_SUPPORT_EMAIL : '';
+        $user = $user ?: wp_get_current_user();
+        $staff = $user && $user->exists() && (
+            preg_match('/@vilpy\.nl$/i', (string) $user->user_email)
+            || stripos((string) $user->user_login, 'vilpy') !== false
+        );
+        return (bool) apply_filters('vilpy_is_staff', $staff, $user);
     }
 }
 
-if (!function_exists('hh_default_welcome_text')) {
-    function hh_default_welcome_text($isWooCommerce = false)
+/**
+ * Versie voor een plugin-bestand op basis van de wijzigingstijd (cache-busting).
+ */
+if (!function_exists('vilpy_asset_ver')) {
+    function vilpy_asset_ver($relative)
     {
-        $subject = $isWooCommerce ? 'webshop' : 'website';
-        $text = 'Welkom in het dashboard van je ' . $subject . '. Hier kun je de belangrijkste inhoud beheren.';
-
-        $phone = hh_support_phone();
-        $mail = hh_support_email();
-        if ($phone && $mail) {
-            $text .= ' Heb je vragen? <a href="tel:' . esc_attr($phone) . '">Bel</a> of <a href="mailto:' . esc_attr($mail) . '">mail</a> support.';
-        }
-
-        return $text;
-    }
-}
-
-if (!function_exists('dd')) {
-    function dd($var, $die = true)
-    {
-        echo '<pre>';
-        print_r($var);
-        echo '</pre>';
-        $die && die();
-    }
-}
-
-if (!function_exists('callAPI')) {
-    function callAPI($method, $url, $data = false, $headers = false, $statuscode = false)
-    {
-        $curl = curl_init();
-        switch ($method) {
-            case "POST":
-                curl_setopt($curl, CURLOPT_POST, 1);
-                if ($data) {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                }
-                break;
-            case "PUT":
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-                if ($data) {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                }
-                break;
-            default:
-                if ($data) {
-                    $url = sprintf("%s?%s", $url, http_build_query($data));
-                }
-        }
-    // OPTIONS:
-        curl_setopt($curl, CURLOPT_URL, $url);
-        if (!$headers) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-            ));
-        } else {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        }
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    // EXECUTE:
-        $result = curl_exec($curl);
-        if (!$result) {
-            return false;
-        }
-        curl_close($curl);
-
-        $alldata = [];
-        if ($statuscode) {
-            $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            $alldata[] = $httpcode;
-            $alldata[] = $result;
-            return $alldata;
-        }
-        return $result;
-    }
-
-    if ( ! function_exists('write_log')) {
-    function write_log ($log, $vardump = false)  {
-        
-            if ($vardump) {
-                error_log(var_dump($log));
-            }
-
-        if ( is_array( $log ) || is_object( $log ) ) {
-            error_log( print_r( $log, true ) );
-        } else {
-            error_log( $log );
-        }
-    }
-    }
-}
-
-if ( ! function_exists('pluginInstalled')) {
-    function pluginInstalled( $plugin_slug ) {
-        $installed_plugins = get_plugins();
-        return array_key_exists( $plugin_slug, $installed_plugins ) || in_array( $plugin_slug, $installed_plugins, true );
-    }
-}
-
-if ( ! function_exists('themesInstalled')) {
-    function themesInstalled( $theme_slug ) {
-        $installed_themes = get_themes();
-        return array_key_exists( $theme_slug, $installed_themes ) || in_array( $theme_slug, $installed_themes, true );
-    }
-}
-
-if (!function_exists('pluginsToAutoInstall')) {
-    function pluginsToAutoInstall() {
-        return [
-        'Elementor Pro'
-                => ['slug' => 'elementor-pro',
-                    'folder' => 'elementor-pro',
-                    'filename' => 'elementor-pro'],
-        'Elementor'
-                => ['slug' => 'elementor',
-                    'folder' => 'elementor',
-                    'filename' => 'elementor'],
-        'Fluent SMTP'
-                => ['slug' => 'fluent-smtp',
-                    'folder' => 'fluent-smtp',
-                    'filename' => 'fluent-smtp'],
-        'Cleantalk Spam Protect'
-                => ['slug' => 'cleantalk-spam-protect',
-                    'folder' => 'cleantalk-spam-protect',
-                    'filename' => 'cleantalk'],
-        'Litespeed Cache'
-                => ['slug' => 'litespeed-cache',
-                    'folder' => 'litespeed-cache',
-                    'filename' => 'litespeed-cache'],
-        'ManageWP worker'
-                => ['slug' => 'worker',
-                    'folder' => 'worker',
-                    'filename' => 'init'],
-        'Perfmatters'
-                => ['slug' => 'perfmatters',
-                    'folder' => 'perfmatters',
-                    'filename' => 'perfmatters'],
-        'Rank Math'
-                => ['slug' => 'seo-by-rank-math',
-                    'folder' => 'seo-by-rank-math',
-                    'filename' => 'rank-math'],
-        'Rank Math Pro'
-                => ['slug' => 'rank-math-pro',
-                    'folder' => 'seo-by-rank-math-pro',
-                    'filename' => 'rank-math-pro'],
-        'Yoast Duplicate Post'
-                => ['slug' => 'duplicate-post',
-                    'folder' => 'duplicate-post',
-                    'filename' => 'duplicate-post']
-        ];
+        $file = Vilpy\PLUGINDIR . '/' . ltrim($relative, '/');
+        return file_exists($file) ? (string) filemtime($file) : vilpy_version();
     }
 }

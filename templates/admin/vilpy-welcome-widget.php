@@ -2,7 +2,7 @@
 
 namespace Vilpy;
 
-$path = plugins_url('/assets/img/', PLUGINROOT);
+
 $input = get_option('client-overlay');
 $overlayColorWh = $input ?: '#0000002E';
 $titleColor = get_option('client-title-color');
@@ -15,7 +15,7 @@ $titleColor = get_option('client-title-color');
     $backgroundurl = $background ? $background : plugins_url('/assets/img/bg-dashboard.png', PLUGINROOT);
     ?>
     #vilpy-welcome {
-        background-image: url('<?php echo $backgroundurl ?>');
+        background-image: url('<?php echo esc_url($backgroundurl); ?>');
         background-color: #061b17;
         position: relative;
     }
@@ -62,7 +62,7 @@ $titleColor = get_option('client-title-color');
 
     #vilpy-welcome::before {
         content: '';
-        background-color: <?php echo $overlayColorWh ?>;
+        background-color: <?php echo esc_attr($overlayColorWh); ?>;
         position: absolute;
         top: 0;
         right: 0;
@@ -75,22 +75,20 @@ $titleColor = get_option('client-title-color');
 <section id="vilpy-welcome">
     <section>
         <div>
-            <h1 style="color:<?php echo $titleColor ? $titleColor : 'white'?>; font-family:'Bricolage Grotesque', sans-serif !important; font-weight:800 !important;">Welkom! <?php echo VilpyRole::name(); ?></h1>
+            <h1 style="color:<?php echo esc_attr($titleColor ?: 'white'); ?>; font-family:'Bricolage Grotesque', sans-serif !important; font-weight:800 !important;">Welkom<?php $vilpyName = wp_get_current_user()->first_name ?: wp_get_current_user()->display_name; echo $vilpyName ? ' ' . esc_html($vilpyName) : ''; ?>!</h1>
             <?php
             $text = get_option('client-welcome-text');
 
-            if (!$text && pluginInstalled("woocommerce/woocommerce.php")) {
-                $text = \hh_default_welcome_text(true);
-            } elseif (!$text && !pluginInstalled("woocommerce/woocommerce.php")) {
-                $text = \hh_default_welcome_text(false);
+            if (!$text) {
+                $text = \vilpy_default_welcome_text();
             }
 
             echo '<p style="max-width: 55%; font-family:\'Bricolage Grotesque\', sans-serif !important; font-weight:400 !important;">';
-            echo $text;
+            echo wp_kses_post($text);
             echo '</p>';
             ?>
         </div>
-        <img src='<?php echo get_option('client-logo') ? get_option('client-logo') : \hh_default_login_logo() ?>' class='vilpy-theme-img-welcome' style='width:140px !important; min-width:140px !important; max-width:140px !important; height:auto !important; flex:0 0 140px; object-fit:contain;' alt='Vilpy logo' />
+        <img src='<?php echo esc_url(get_option('client-logo') ?: \vilpy_default_login_logo()); ?>' class='vilpy-theme-img-welcome' style='width:140px !important; min-width:140px !important; max-width:140px !important; height:auto !important; flex:0 0 140px; object-fit:contain;' alt='Vilpy logo' />
     </section>
 </section>
 <?php

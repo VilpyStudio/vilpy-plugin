@@ -1,0 +1,47 @@
+/* icon color fix */
+.elementor-icon-list-icon svg path,
+.elementor-social-icons-wrapper svg path {
+  fill: inherit;
+}
+
+/* Fix elementor iconlist icon alignment */
+.elementor-icon-list-item .elementor-icon-list-icon {
+margin-top: 4px!important;
+}
+.elementor-icon-list-item {
+align-items: start!important;
+}
+
+/* line gone on mobile */
+/* Geen focusrand bij muisklik, wel bij toetsenbord (toegankelijkheid) */
+body :focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Replace dropdown arrow*/
+form .elementor-field-type-select .elementor-select-wrapper:before {
+  content: "" !important;
+}
+
+form .elementor-field-type-select .elementor-select-wrapper div.select-caret-down-wrapper {
+  display: none !important;
+}
+
+form .elementor-field-type-select .elementor-field:before,
+form .elementor-field-type-select .elementor-field:after {
+  content: "" !important;
+  width: 8px;
+  background: none;
+  height: 8px;
+  color: #363636 !important;
+  position: absolute;
+  right: 13px;
+  top: calc(50% - 6px);
+  transform: rotate(45deg);
+}
+form .elementor-field-type-select .elementor-field:before {
+  border-right: 2px solid;
+}
+form .elementor-field-type-select .elementor-field:after {
+  border-bottom: 2px solid;
+}
